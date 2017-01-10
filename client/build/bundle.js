@@ -19789,11 +19789,25 @@
 	var ActorSearch = React.createClass({
 	  displayName: "ActorSearch",
 	
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      searchText: ""
+	    };
+	  },
+	
+	  handleInputUpdated: function handleInputUpdated(e) {
+	    var newSearchText = e.target.value;
+	    this.setState({
+	      searchText: newSearchText
+	    });
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      "div",
 	      null,
-	      React.createElement("input", { type: "text", placeholder: "Enter actor name..." })
+	      React.createElement("input", { type: "text", value: this.state.searchText, placeholder: "Enter actor name...", onChange: this.handleInputUpdated })
 	    );
 	  }
 	});
