@@ -13,11 +13,7 @@ var ShowList = React.createClass({
         return <ShowDetails key={ index } show={ showData } />
       });
     } else {
-      if (this.props.showNoShowsMessage) {
-        itemsToRender = <p>No shows found :-(</p>;
-      } else {
-        itemsToRender = "";
-      }
+      itemsToRender = <p>{ this.props.message }</p>;
     }
 
     return (

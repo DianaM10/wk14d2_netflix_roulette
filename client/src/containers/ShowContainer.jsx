@@ -9,7 +9,7 @@ var ShowContainer = React.createClass({
     return {
       currentSearch: "",
       foundShows: [],
-      showNoShowsMessage: false
+      message: ""
     }
   },
 
@@ -18,6 +18,9 @@ var ShowContainer = React.createClass({
       currentSearch: searchText
     });
     if( searchText.length > 5) {
+      this.setState({
+        message: "Loading..."
+      })
       var url = 'http://netflixroulette.net/api/api.php?actor=' + encodeURI(searchText);
       var request = new XMLHttpRequest();
       request.open('GET', url);
@@ -29,6 +32,10 @@ var ShowContainer = React.createClass({
           });
         } else {
           console.log( "request error code:", request.status );
+          this.setState({
+            message: "Sorry no shows found :-(",
+            foundShows: []
+          });
         }
       }.bind( this );
       request.send();
@@ -47,7 +54,7 @@ var ShowContainer = React.createClass({
           onSearchTextChange={ this.handleSearchTextChange }
         />
       <ShowList
-        showNoShowsMessage={ this.state.showNoShowsMessage }
+        message={ this.state.message }
         shows={ this.state.foundShows }
       />
       </div>

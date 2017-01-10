@@ -19766,7 +19766,7 @@
 	    return {
 	      currentSearch: "",
 	      foundShows: [],
-	      showNoShowsMessage: false
+	      message: ""
 	    };
 	  },
 	
@@ -19775,6 +19775,9 @@
 	      currentSearch: searchText
 	    });
 	    if (searchText.length > 5) {
+	      this.setState({
+	        message: "Loading..."
+	      });
 	      var url = 'http://netflixroulette.net/api/api.php?actor=' + encodeURI(searchText);
 	      var request = new XMLHttpRequest();
 	      request.open('GET', url);
@@ -19786,6 +19789,10 @@
 	          });
 	        } else {
 	          console.log("request error code:", request.status);
+	          this.setState({
+	            message: "Sorry no shows found :-(",
+	            foundShows: []
+	          });
 	        }
 	      }.bind(this);
 	      request.send();
@@ -19809,7 +19816,7 @@
 	        onSearchTextChange: this.handleSearchTextChange
 	      }),
 	      React.createElement(ShowList, {
-	        showNoShowsMessage: this.state.showNoShowsMessage,
+	        message: this.state.message,
 	        shows: this.state.foundShows
 	      })
 	    );
@@ -19886,15 +19893,11 @@
 	        return React.createElement(ShowDetails, { key: index, show: showData });
 	      });
 	    } else {
-	      if (this.props.showNoShowsMessage) {
-	        itemsToRender = React.createElement(
-	          'p',
-	          null,
-	          'No shows found :-('
-	        );
-	      } else {
-	        itemsToRender = "";
-	      }
+	      itemsToRender = React.createElement(
+	        'p',
+	        null,
+	        this.props.message
+	      );
 	    }
 	
 	    return React.createElement(
