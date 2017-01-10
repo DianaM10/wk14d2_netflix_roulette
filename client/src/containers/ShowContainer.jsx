@@ -8,7 +8,8 @@ var ShowContainer = React.createClass({
   getInitialState: function() {
     return {
       currentSearch: "",
-      foundShows: []
+      foundShows: [],
+      showNoShowsMessage: false
     }
   },
 
@@ -21,13 +22,21 @@ var ShowContainer = React.createClass({
       var request = new XMLHttpRequest();
       request.open('GET', url);
       request.onload = function() {
-        var data = JSON.parse(request.responseText);
-        this.setState({
-          foundShows: data
-        });
+        if ( this.status === 200 ) {
+          var data = JSON.parse(request.responseText);
+          this.setState({
+            foundShows: data
+          });
+        } else {
+          console.log( "request error code:", request.status );
+        }
       }.bind( this );
       request.send();
-    }
+    };
+
+    this.setState({
+      showNoShowsMessage: true
+    });
   },
 
   render: function() {
@@ -37,7 +46,10 @@ var ShowContainer = React.createClass({
         <ActorSearch
           onSearchTextChange={ this.handleSearchTextChange }
         />
-      <ShowList shows={ this.state.foundShows }/>
+      <ShowList
+        showNoShowsMessage={ this.state.showNoShowsMessage }
+        shows={ this.state.foundShows }
+      />
       </div>
       )
   }

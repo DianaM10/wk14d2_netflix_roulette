@@ -19765,7 +19765,8 @@
 	  getInitialState: function getInitialState() {
 	    return {
 	      currentSearch: "",
-	      foundShows: []
+	      foundShows: [],
+	      showNoShowsMessage: false
 	    };
 	  },
 	
@@ -19778,13 +19779,21 @@
 	      var request = new XMLHttpRequest();
 	      request.open('GET', url);
 	      request.onload = function () {
-	        var data = JSON.parse(request.responseText);
-	        this.setState({
-	          foundShows: data
-	        });
+	        if (this.status === 200) {
+	          var data = JSON.parse(request.responseText);
+	          this.setState({
+	            foundShows: data
+	          });
+	        } else {
+	          console.log("request error code:", request.status);
+	        }
 	      }.bind(this);
 	      request.send();
-	    }
+	    };
+	
+	    this.setState({
+	      showNoShowsMessage: true
+	    });
 	  },
 	
 	  render: function render() {
@@ -19799,7 +19808,10 @@
 	      React.createElement(ActorSearch, {
 	        onSearchTextChange: this.handleSearchTextChange
 	      }),
-	      React.createElement(ShowList, { shows: this.state.foundShows })
+	      React.createElement(ShowList, {
+	        showNoShowsMessage: this.state.showNoShowsMessage,
+	        shows: this.state.foundShows
+	      })
 	    );
 	  }
 	});
@@ -19863,11 +19875,27 @@
 	var ShowList = React.createClass({
 	  displayName: 'ShowList',
 	
+	
 	  render: function render() {
 	
-	    var showDetailElements = this.props.shows.map(function (showData, index) {
-	      return React.createElement(ShowDetails, { key: index, show: showData });
-	    });
+	    var shows = this.props.shows;
+	    var itemsToRender = undefined;
+	
+	    if (shows && shows.length > 0) {
+	      itemsToRender = shows.map(function (showData, index) {
+	        return React.createElement(ShowDetails, { key: index, show: showData });
+	      });
+	    } else {
+	      if (this.props.showNoShowsMessage) {
+	        itemsToRender = React.createElement(
+	          'p',
+	          null,
+	          'No shows found :-('
+	        );
+	      } else {
+	        itemsToRender = "";
+	      }
+	    }
 	
 	    return React.createElement(
 	      'div',
@@ -19877,7 +19905,7 @@
 	        null,
 	        'Show List '
 	      ),
-	      showDetailElements
+	      itemsToRender
 	    );
 	  }
 	});
