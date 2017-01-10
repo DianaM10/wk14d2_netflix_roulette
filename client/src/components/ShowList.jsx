@@ -10,8 +10,11 @@ var ShowList = React.createClass({
     console.log("shows:", shows);
     if (shows && shows.length > 0 ) {
       itemsToRender = shows.map( function( showData, index ) {
-        return <ShowDetails key={ index } show={ showData } />
-      });
+        return <ShowDetails
+          key={ index }
+          show={ showData }
+        />
+    }.bind( this ));
     } else {
       itemsToRender = <p>{ this.props.message }</p>;
     }

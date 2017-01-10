@@ -19890,8 +19890,11 @@
 	    console.log("shows:", shows);
 	    if (shows && shows.length > 0) {
 	      itemsToRender = shows.map(function (showData, index) {
-	        return React.createElement(ShowDetails, { key: index, show: showData });
-	      });
+	        return React.createElement(ShowDetails, {
+	          key: index,
+	          show: showData
+	        });
+	      }.bind(this));
 	    } else {
 	      itemsToRender = React.createElement(
 	        'p',
@@ -19922,6 +19925,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var CastList = __webpack_require__(163);
 	
 	var ShowDetails = React.createClass({
 	  displayName: 'ShowDetails',
@@ -19942,17 +19946,9 @@
 	          show.show_title
 	        )
 	      ),
-	      React.createElement(
-	        'p',
-	        null,
-	        React.createElement(
-	          'b',
-	          null,
-	          'Cast :'
-	        ),
-	        ' ',
-	        show.show_cast
-	      ),
+	      React.createElement(CastList, {
+	        castString: show.show_cast
+	      }),
 	      React.createElement(
 	        'p',
 	        null,
@@ -19974,6 +19970,61 @@
 	});
 	
 	module.exports = ShowDetails;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var CastList = React.createClass({
+	  displayName: "CastList",
+	
+	
+	  render: function render() {
+	
+	    var castList = this.props.castString.split(", ");
+	    var castElements = castList.map(function (castMember, index) {
+	      return React.createElement(
+	        "li",
+	        null,
+	        React.createElement(
+	          "button",
+	          null,
+	          castMember
+	        )
+	      );
+	    });
+	
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "p",
+	        null,
+	        React.createElement(
+	          "b",
+	          null,
+	          "Cast List"
+	        )
+	      ),
+	      React.createElement(
+	        "ul",
+	        null,
+	        React.createElement(
+	          "li",
+	          null,
+	          castElements
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = CastList;
 
 /***/ }
 /******/ ]);

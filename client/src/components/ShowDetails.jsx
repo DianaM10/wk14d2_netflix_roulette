@@ -1,4 +1,5 @@
 var React = require('react');
+var CastList = require('./CastList');
 
 var ShowDetails = React.createClass({
   render: function() {
@@ -8,7 +9,9 @@ var ShowDetails = React.createClass({
     return (
       <div>
         <h3><b>{ show.show_title }</b></h3>
-        <p><b>Cast :</b> { show.show_cast }</p>
+        <CastList
+          castString={ show.show_cast }
+        />
         <p><b>Summary :</b> <i>{ show.summary}</i></p>
         <img src={ show.poster }/>
       </div>
