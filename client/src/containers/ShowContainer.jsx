@@ -7,7 +7,8 @@ var ShowContainer = React.createClass({
 
   getInitialState: function() {
     return {
-      currentSearch: ""
+      currentSearch: "",
+      foundShows: []
     }
   },
 
@@ -21,9 +22,10 @@ var ShowContainer = React.createClass({
       request.open('GET', url);
       request.onload = function() {
         var data = JSON.parse(request.responseText);
-        console.log("data: ", data);
-
-      }
+        this.setState({
+          foundShows: data
+        });
+      }.bind( this );
       request.send();
     }
   },
@@ -35,7 +37,7 @@ var ShowContainer = React.createClass({
         <ActorSearch
           onSearchTextChange={ this.handleSearchTextChange }
         />
-        <ShowList />
+      <ShowList shows={ this.state.foundShows }/>
       </div>
       )
   }

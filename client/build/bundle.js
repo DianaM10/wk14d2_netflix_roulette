@@ -19764,7 +19764,8 @@
 	
 	  getInitialState: function getInitialState() {
 	    return {
-	      currentSearch: ""
+	      currentSearch: "",
+	      foundShows: []
 	    };
 	  },
 	
@@ -19778,8 +19779,10 @@
 	      request.open('GET', url);
 	      request.onload = function () {
 	        var data = JSON.parse(request.responseText);
-	        console.log("data: ", data);
-	      };
+	        this.setState({
+	          foundShows: data
+	        });
+	      }.bind(this);
 	      request.send();
 	    }
 	  },
@@ -19796,7 +19799,7 @@
 	      React.createElement(ActorSearch, {
 	        onSearchTextChange: this.handleSearchTextChange
 	      }),
-	      React.createElement(ShowList, null)
+	      React.createElement(ShowList, { shows: this.state.foundShows })
 	    );
 	  }
 	});
@@ -19861,6 +19864,11 @@
 	  displayName: 'ShowList',
 	
 	  render: function render() {
+	
+	    var showDetailElements = this.props.shows.map(function (showData, index) {
+	      return React.createElement(ShowDetails, { key: index, show: showData });
+	    });
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -19869,7 +19877,7 @@
 	        null,
 	        'Show List '
 	      ),
-	      React.createElement(ShowDetails, null)
+	      showDetailElements
 	    );
 	  }
 	});
@@ -19888,10 +19896,22 @@
 	  displayName: 'ShowDetails',
 	
 	  render: function render() {
+	
+	    var show = this.props.show;
+	
 	    return React.createElement(
-	      'p',
+	      'div',
 	      null,
-	      'Show details!'
+	      React.createElement(
+	        'p',
+	        null,
+	        React.createElement(
+	          'b',
+	          null,
+	          'Show Title: '
+	        ),
+	        show.show_title
+	      )
 	    );
 	  }
 	});
