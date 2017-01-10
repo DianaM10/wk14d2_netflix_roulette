@@ -13,6 +13,7 @@ var ActorSearch = React.createClass({
     this.setState({
       searchText: newSearchText
     });
+    this.props.onSearchTextChange( newSearchText );
   },
 
   render: function() {

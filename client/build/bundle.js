@@ -19761,6 +19761,19 @@
 	var ShowContainer = React.createClass({
 	  displayName: 'ShowContainer',
 	
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      currentSearch: ""
+	    };
+	  },
+	
+	  handleSearchTextChange: function handleSearchTextChange(searchText) {
+	    this.setState({
+	      currentSearch: searchText
+	    });
+	  },
+	
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -19770,7 +19783,9 @@
 	        null,
 	        'Netflix Roulette '
 	      ),
-	      React.createElement(ActorSearch, null),
+	      React.createElement(ActorSearch, {
+	        onSearchTextChange: this.handleSearchTextChange
+	      }),
 	      React.createElement(ShowList, null)
 	    );
 	  }
@@ -19801,6 +19816,7 @@
 	    this.setState({
 	      searchText: newSearchText
 	    });
+	    this.props.onSearchTextChange(newSearchText);
 	  },
 	
 	  render: function render() {
