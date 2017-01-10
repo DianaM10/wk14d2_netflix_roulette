@@ -13,13 +13,17 @@ var ActorSearch = React.createClass({
     this.setState({
       searchText: newSearchText
     });
-    this.props.onSearchTextChange( newSearchText );
+  },
+
+  handleSearchClick: function() {
+    this.props.onSearchTextChange( this.state.searchText );
   },
 
   render: function() {
     return (
       <div>
         <input type="text" value={ this.state.searchText } placeholder="Enter actor name..." onChange={ this.handleInputUpdated }/>
+        <button onClick={this.handleSearchClick}>Search</button>
       </div>
       )
   }

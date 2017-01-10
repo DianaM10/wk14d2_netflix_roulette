@@ -19826,14 +19826,22 @@
 	    this.setState({
 	      searchText: newSearchText
 	    });
-	    this.props.onSearchTextChange(newSearchText);
+	  },
+	
+	  handleSearchClick: function handleSearchClick() {
+	    this.props.onSearchTextChange(this.state.searchText);
 	  },
 	
 	  render: function render() {
 	    return React.createElement(
 	      "div",
 	      null,
-	      React.createElement("input", { type: "text", value: this.state.searchText, placeholder: "Enter actor name...", onChange: this.handleInputUpdated })
+	      React.createElement("input", { type: "text", value: this.state.searchText, placeholder: "Enter actor name...", onChange: this.handleInputUpdated }),
+	      React.createElement(
+	        "button",
+	        { onClick: this.handleSearchClick },
+	        "Search"
+	      )
 	    );
 	  }
 	});
