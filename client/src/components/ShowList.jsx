@@ -7,7 +7,7 @@ var ShowList = React.createClass({
 
     var shows = this.props.shows;
     var itemsToRender = undefined;
-
+    console.log("shows:", shows);
     if (shows && shows.length > 0 ) {
       itemsToRender = shows.map( function( showData, index ) {
         return <ShowDetails key={ index } show={ showData } />

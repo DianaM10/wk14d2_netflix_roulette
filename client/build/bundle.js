@@ -19779,7 +19779,7 @@
 	      var request = new XMLHttpRequest();
 	      request.open('GET', url);
 	      request.onload = function () {
-	        if (this.status === 200) {
+	        if (request.status === 200) {
 	          var data = JSON.parse(request.responseText);
 	          this.setState({
 	            foundShows: data
@@ -19880,7 +19880,7 @@
 	
 	    var shows = this.props.shows;
 	    var itemsToRender = undefined;
-	
+	    console.log("shows:", shows);
 	    if (shows && shows.length > 0) {
 	      itemsToRender = shows.map(function (showData, index) {
 	        return React.createElement(ShowDetails, { key: index, show: showData });
@@ -19931,15 +19931,41 @@
 	      'div',
 	      null,
 	      React.createElement(
+	        'h3',
+	        null,
+	        React.createElement(
+	          'b',
+	          null,
+	          show.show_title
+	        )
+	      ),
+	      React.createElement(
 	        'p',
 	        null,
 	        React.createElement(
 	          'b',
 	          null,
-	          'Show Title: '
+	          'Cast :'
 	        ),
-	        show.show_title
-	      )
+	        ' ',
+	        show.show_cast
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        React.createElement(
+	          'b',
+	          null,
+	          'Summary :'
+	        ),
+	        ' ',
+	        React.createElement(
+	          'i',
+	          null,
+	          show.summary
+	        )
+	      ),
+	      React.createElement('img', { src: show.poster })
 	    );
 	  }
 	});

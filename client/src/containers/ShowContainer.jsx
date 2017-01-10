@@ -22,7 +22,7 @@ var ShowContainer = React.createClass({
       var request = new XMLHttpRequest();
       request.open('GET', url);
       request.onload = function() {
-        if ( this.status === 200 ) {
+        if ( request.status === 200 ) {
           var data = JSON.parse(request.responseText);
           this.setState({
             foundShows: data
